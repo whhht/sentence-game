@@ -1,0 +1,113 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp15
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□");
+            Console.WriteLine("□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□");
+            Console.WriteLine("□□■■■■■□■□□□■■■■■□■□□□□■■■□□□■□□□□□■□□□□□");
+            Console.WriteLine("□□■□□□□□■□□□□□■□□□■□□□■□□□■□■■□□□□■□■□□□□");
+            Console.WriteLine("□□■■■■■□■■■□□■□■□□■■■□■□□□■□□■□□□■□□□■□□□");
+            Console.WriteLine("□□■□□□□□■□□□■□□□■□■□□□□■■■□□■■□□□□□□□□□□□");
+            Console.WriteLine("□□■■■■■□■□□□□□□□□□■□□□□□□□■□□■□□■■■■■■■□□");
+            Console.WriteLine("□□□□□□□□■□□□□□□□□□■□□□□□□□■□□□□□□■□□□■□□□");
+            Console.WriteLine("□□□□□□□□□□□□□□□□□□□□□□□□□□■■■■□□□■■■■■□□□");
+            Console.WriteLine("□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□■■■■■□□□");
+            Console.WriteLine("□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□");
+            Console.WriteLine("□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□");
+            Console.WriteLine("");
+            Console.WriteLine("-------------아무키를 눌러주세요------------");
+            string rl = Console.ReadLine();
+            Console.Clear();
+
+            //기존 문자열 배열
+            string[] sentences = {
+            "계절범죄.",
+            "더워지는 바람에눈을 스쳐 뜨던 밤처럼 옅어지는 그날의 작은 기억이 잊혀져.",
+            "매일 눈을 뜰 때면 흐려져 오늘도 눈을 감으면 또 사라져 버릴 듯한 어제를 그려가.",
+            "떨어지는 그림자 사이에 맴도는 향기가 조용히 너를 불어와.",
+            "선명했던 날들도 어느새 다 지워 버린 채, 차갑게 잊혀져만 가.",
+            "흐렸던 날들만 바람에 날아가거라 베어 물은 듯 추억만 고이 남은 채.",
+            "지샌 하늘 위 피어진 구름처럼 사라지는 마음은 후회도 잊어버린 채.",
+            "내 생에 피어라 가장 아픈 겨울아 지난날처럼 길고 멀었던 그리운 계절을 불러.",
+            "봄바람이 스치듯 떠난 밤. 내 안의 계절을 다 팔아 버린 밤.",
+            "마음에는 어떤 소리가 들려?",
+            "깊어지는 실루엣 사이로 눈부신 바람이 또다시 너를 불어와.",
+            "선명했던 날들도 이제는 다 잊어버린 채, 조용히 흩어져만 가.",
+            "괴로운 날들만 바람에 날아가거라 베어 물은 듯 추억만 고이 남은 채.",
+            "지샌 새벽 끝 옅어진 달빛처럼 흐려지는 기억은 슬픔도 잊어버린 채.",
+            "내 생에 지어라 가장 짙은 여름아 지난날처럼 길고 멀었던 그리운 계절을 불러.",
+            "하얗고 하얗던 내 계절아 끝이 없고 그치지 않는 비에도 밝아오니까.",
+            "그 시간이 두려워도 난 괜찮아 잿빛 사이 푸른 이 비가 선명하게 모든 계절을 다시 찾아갈 테니.",
+            "흐렸던 날들만 바람에 날아가거라 베어 물은 듯 추억만 고이 남은 채.",
+            "푸른 바람과 스쳐 간 계절마저 잊어가는 시간은 어제도 잊어버린 채.",
+            "내게만 맑아라 슬피 우는 사랑아 지난날처럼 길고 멀었던 그리운 계절 아래로.",
+            "피어가 꽃잎과 푸른 하늘이 베어 물은 듯 후회만 남아 버린 채.",
+            "기쁜 마음도 슬픔도 이젠 되돌릴 수 없는 날들로 저 멀리 사라져만 가.",
+            "내 생에 피었던 아름다운 하루가 지난밤처럼 길고 어둡던 그리운 계절을 불러.",
+            };
+
+            int maxSentences = sentences.Length;    //문제 갯수
+            Random random = new Random();
+
+            //정답 맞는 경우 변수만들기
+            int sentenceIndex = 0;//글
+            int attempts = 0;   //기회 횟수 초기화
+            int a = 0;
+            const int maxTypingAttempts = 3;    //총기회 횟수
+
+            while (sentenceIndex < maxSentences)    //글 < 타이핑
+            {
+                if (a == 0)
+                {
+                    string sentence = sentences[sentenceIndex]; //문장 배열 
+                    Console.WriteLine($"다음 문장을 입력하세요:\n{sentence}");
+                    Console.WriteLine("sentenceIndex:" + sentenceIndex);
+                    Console.WriteLine("maxSentences:" + maxSentences);
+                    Console.WriteLine("맞춘 문장 갯수 (" + sentenceIndex + "/ 23)"); //맞춘갯수, 남은갯수(문장갯수 넣기)
+                    Console.Write("\n입력: ");  //"입력:"을 출력
+                    string input = Console.ReadLine();  // 타이핑 입력받기
+                    sentenceIndex++;//정답 확인하는 코드
+
+                    if (sentence.Equals(input, StringComparison.OrdinalIgnoreCase) && sentenceIndex != maxSentences)
+                    {
+                        Console.WriteLine("정확합니다!\n");
+                        Console.Clear();    //화면 초기화
+                        attempts = 0;   // 정확하게 입력했으므로 시도 횟수 초기화
+                    }
+                    else if (attempts == 2)
+                    {
+                        Console.Clear();
+                        a++;
+                        Console.WriteLine("실패하셨습니다.");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        attempts++;    //틀린시도횟수 증가
+                        Console.WriteLine($"일치하지 않습니다. 다시 시도하세요. ({attempts}/{maxTypingAttempts})");
+                        //틀린경우
+                    }
+                }
+
+                if (sentenceIndex == maxSentences)  //모든 문장이 정답인 경우(예외처리1)
+                {
+                    Console.Clear();
+                    Console.WriteLine("게임 종료. 모든 문장을 정확하게 입력했습니다.");
+                    return;
+                }
+
+
+
+            }
+        }
+    }
+}
